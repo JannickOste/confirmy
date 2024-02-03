@@ -1,0 +1,23 @@
+{
+  "name": "confirmy",
+  "version": "0.0.1",
+  "description": "Confirm your datatypes are as they should be. (currently in non working state)",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && tsc --module commonjs"
+  },
+  "author": "Oste Jannick",
+  "license": "ISC",
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.2"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-typescript": "^7.23.3"
+  }
+}
