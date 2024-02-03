@@ -1,7 +1,8 @@
+import { AValidator } from "../../../domain/validator/base/AValidator";
 import BooleanValidatorInterface from "../../../domain/validator/primtive/BooleanValidatorInterface";
 import  ClassValidator  from "./ClassValidator";
 
-export default class BooleanValidator extends ClassValidator<boolean> implements BooleanValidatorInterface
+export default class BooleanValidator extends AValidator<boolean> implements BooleanValidatorInterface
 {    
     isTrue: () => BooleanValidator = () => 
     {
