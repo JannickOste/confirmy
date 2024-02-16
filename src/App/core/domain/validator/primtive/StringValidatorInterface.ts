@@ -1,4 +1,10 @@
-export default interface StringValidatorInterface {
+import { AValidator } from "../base/AValidator";
+
+/**
+ * Interface for validating string values.
+ * @extends AValidator<string>
+ */
+export default interface StringValidatorInterface extends AValidator<string> {
     /**
      * Sets a minimum length validation rule for the string.
      * @param {number} min - The minimum length allowed.
@@ -12,6 +18,14 @@ export default interface StringValidatorInterface {
      * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
      */
     maxLength(max: number): StringValidatorInterface;
+
+    /**
+     * Sets a validation rule for the string length to be within a specified range.
+     * @param {number} min - The minimum length allowed.
+     * @param {number} max - The maximum length allowed.
+     * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
+     */
+    lengthInRange(min: number, max: number): StringValidatorInterface;
 
     /**
      * Sets an equality validation rule for the string.
@@ -54,4 +68,28 @@ export default interface StringValidatorInterface {
      * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
      */
     startsWith(substring: string): StringValidatorInterface;
+
+    /**
+     * Sets a rule to check if the string is a palindrome.
+     * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
+     */
+    isPalindrome(): StringValidatorInterface;
+
+    /**
+     * Sets a rule to check if the string is a valid email address.
+     * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
+     */
+    isEmail(): StringValidatorInterface;
+
+    /**
+     * Sets a rule to check if the string is a valid URL.
+     * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
+     */
+    isURL(): StringValidatorInterface;
+
+    /**
+     * Sets a rule to check if the string is a valid UUID.
+     * @returns {StringValidatorInterface} - The current StringValidatorInterface instance for chaining.
+     */
+    isUUID(): StringValidatorInterface;
 }
