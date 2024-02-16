@@ -1,0 +1,9 @@
+{
+  "TestObject": {
+    "properties": {
+      "someProperty": {
+        "string": null
+      }
+    }
+  }
+}

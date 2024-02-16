@@ -1,8 +1,8 @@
 import { AValidator } from "../../../domain/validator/base/AValidator";
 import StringValidatorInterface from "../../../domain/validator/primtive/StringValidatorInterface";
 
-export default class StringValidator extends AValidator<String> implements StringValidatorInterface {
-    minLength: (min: number) => StringValidator = (min: number): StringValidator => {
+export default class StringValidator extends AValidator<string> implements StringValidatorInterface {
+    minLength: (min: number) => StringValidatorInterface = (min: number): StringValidatorInterface => {
         type MinLengthOptions = { minLength: number }
 
         this.addRule<MinLengthOptions>(
@@ -15,7 +15,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    maxLength: (max: number) => StringValidator = (max: number): StringValidator => {
+    maxLength: (max: number) => StringValidatorInterface = (max: number): StringValidator => {
         type MaxLengthOptions = { maxLength: number }
 
         this.addRule<MaxLengthOptions>(
@@ -28,7 +28,20 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    equal: (equal: string) => StringValidator = (equal: string): StringValidator => {
+    lengthInRange: (min: number, max: number) => StringValidatorInterface = (min: number, max: number): StringValidatorInterface => {
+        type InRangeOptions = { minLength: number, maxLength: number}
+
+        this.addRule<InRangeOptions>(
+            { minLength: min , maxLength: max },
+
+            (str: string, { minLength, maxLength }: InRangeOptions) => str.length >= minLength && str.length <= maxLength,
+            (str: string, { minLength, maxLength }: InRangeOptions) => `Length must be greater or equal to ${minLength}`,
+        );
+
+        return this;
+    }
+
+    equal: (equal: string) => StringValidatorInterface = (equal: string): StringValidator => {
         type EqualOptions = { equalTo: string }
 
         this.addRule<EqualOptions>(
@@ -41,7 +54,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    notEqual: (notEqual: string) => StringValidator = (notEqual: string): StringValidator => {
+    notEqual: (notEqual: string) => StringValidatorInterface = (notEqual: string): StringValidator => {
         type NotEqualOptions = { notEqualTo: string }
 
         this.addRule<NotEqualOptions>(
@@ -54,7 +67,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    matchPattern: (pattern: RegExp) => StringValidator = (pattern: RegExp): StringValidator => {
+    matchPattern: (pattern: RegExp) => StringValidatorInterface = (pattern: RegExp): StringValidator => {
         type PatternOptions = { regexPattern: RegExp }
 
         this.addRule<PatternOptions>(
@@ -67,7 +80,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    contains: (substring: string) => StringValidator = (substring: string): StringValidator => {
+    contains: (substring: string) => StringValidatorInterface = (substring: string): StringValidator => {
         type ContainsOptions = {
             substring: string
         }
@@ -81,7 +94,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    endsWith: (substring: string) => StringValidator = (substring: string): StringValidator => {
+    endsWith: (substring: string) => StringValidatorInterface = (substring: string): StringValidator => {
         type EndsWithOptions = {
             substring: string
         }
@@ -95,7 +108,7 @@ export default class StringValidator extends AValidator<String> implements Strin
         return this;
     }
 
-    startsWith: (substring: string) => StringValidator = (substring: string): StringValidator => {
+    startsWith: (substring: string) => StringValidatorInterface = (substring: string): StringValidator => {
         type StartsWithOptions = {
             substring: string
         }
@@ -108,4 +121,39 @@ export default class StringValidator extends AValidator<String> implements Strin
 
         return this;
     }
+
+    isPalindrome: () => StringValidatorInterface = (): StringValidator => {
+        type IsPalindromeOptions = {};
+
+        this.addRule<IsPalindromeOptions>(
+            {},
+            (str: string) => {
+                const reversedStr = str.split('').reverse().join('');
+                return str === reversedStr;
+            },
+            () => `String is not a palindrome`,
+        );
+
+        return this;
+    }
+    
+    isEmail(): StringValidatorInterface {
+        this.matchPattern(
+            /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/);
+        return this;
+    }
+    
+    isURL(): StringValidatorInterface {
+        this.matchPattern(
+            /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?:(?!10|127)(?:\d{1,3}\.){3}(?!0)\d{1,3}|(?:169\.254|192\.168|172\.(1[6-9]|2\d|3[0-1]))(?:\.\d{1,3}){2}|(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4])))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{1,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
+        );
+        return this;
+    }
+    
+    isUUID(): StringValidatorInterface
+    {
+        this.matchPattern(/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/);
+        return this;
+    }
+    
 }

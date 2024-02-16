@@ -4,7 +4,8 @@
   "description": "Confirm your datatypes are as they should be. (currently in non working state)",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest",
+    "test:verbose": "npx jest --verbose",
     "build": "rimraf dist && tsc --module commonjs"
   },
   "author": "Oste Jannick",
